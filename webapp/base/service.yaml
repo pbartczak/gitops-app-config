@@ -5,6 +5,8 @@ metadata:
   annotations:
     argocd.argoproj.io/sync-wave: "2"
 spec:
+  selector:
+    app: webapp
   ports:
     - name: http
       protocol: TCP
