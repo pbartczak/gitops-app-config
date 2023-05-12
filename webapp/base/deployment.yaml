@@ -10,6 +10,9 @@ spec:
     matchLabels:
       app: webapp
   template:
+    metadata:
+      labels:
+        app: webapp
     spec:
       containers:
         - image: quay.io/pbartczak/flask-app:v1.2
