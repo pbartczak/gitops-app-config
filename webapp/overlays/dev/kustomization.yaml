@@ -30,7 +30,7 @@ patchesStrategicMerge:
     metadata:
       name: webapp-route
     spec:
-      host: dev-webapp.apps.infra.elab.local
+      host: dev-webapp.apps.test.eskom.demo
       to:
         kind: Service
         name: dev-webapp-svc
