@@ -6,6 +6,9 @@ metadata:
     argocd.argoproj.io/sync-wave: "1"
 spec:
   replicas: 1
+  selector:
+    matchLabels:
+      app: webapp
   template:
     spec:
       containers:
