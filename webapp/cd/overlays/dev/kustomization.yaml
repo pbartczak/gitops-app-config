@@ -21,7 +21,7 @@ patches:
         value: 2
       - op: replace
         path: /spec/template/spec/containers/0/image
-        value: quay.io/pbartczak/simple-flask-app:241ec99b00a57c62afb2d7e077a5b2ce598b2b76
+        value: quay.io/pbartczak/simple-flask-app:27819fec479f4c4930df24748d3a60ef36351691
 
 patchesStrategicMerge:
   - |-
