@@ -1,0 +1,36 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+bases:
+  - ../../base
+
+namespace: webapp-dev
+
+namePrefix: dev-
+
+commonAnnotations:
+  webapp/version: v1
+
+patches:
+  - target:
+      kind: Deployment
+      name: webapp
+    patch: |-
+      - op: replace
+        path: /spec/replicas
+        value: 2
+      - op: replace
+        path: /spec/template/spec/containers/0/image
+        value: quay.io/pbartczak/simple-flask-app:241ec99b00a57c62afb2d7e077a5b2ce598b2b76
+
+patchesStrategicMerge:
+  - |-
+    apiVersion: route.openshift.io/v1
+    kind: Route
+    metadata:
+      name: webapp-route
+    spec:
+      host: dev-webapp.apps.test.eskom.demo
+      to:
+        kind: Service
+        name: dev-webapp-svc
