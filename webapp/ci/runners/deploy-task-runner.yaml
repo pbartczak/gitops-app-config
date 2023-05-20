@@ -1,0 +1,24 @@
+---
+apiVersion: tekton.dev/v1beta1
+kind: TaskRun
+metadata:
+  generateName: deploy-webapp-
+  namespace: webapp-pipelines
+spec:
+  serviceAccountName: build-bot
+  params:
+    - name: enviroment
+      value: dev
+    - name: argoAppName
+      value: webapp-dev
+    - name: configGitUrl
+      value: "https://github.com/pbartczak/gitops-app-config.git"
+    - name: appImage
+      value: "quay.io/pbartczak/simple-flask-app"
+    - name: buildRevision
+      value: "f51de5e82ce9e12aa07ecd8b8d1376d1b7ec194c"
+  workspaces:
+    - name: config-source
+      emptyDir: {}
+  taskRef:
+    name: deploy

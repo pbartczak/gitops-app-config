@@ -1,0 +1,54 @@
+---
+apiVersion: tekton.dev/v1beta1
+kind: Pipeline
+metadata:
+  name: build-deploy
+  namespace: webapp-pipelines
+spec:
+  params:
+    - name: buildRevision
+      description: The revision of the build (commit revision)
+    - name: appGitUrl
+      description: The application repository
+    - name: configGitUrl
+      description: The application config (GitOps) repository
+    - name: appImage
+      description: The application container image name
+  workspaces:
+    - name: app-source
+    - name: config-source
+
+  tasks:
+    - name: build-app
+      taskRef:
+        name: build
+      params:
+        - name: buildRevision
+          value: "$(params.buildRevision)"
+        - name: appGitUrl
+          value: "$(params.appGitUrl)"
+        - name: appImage
+          value: "$(params.appImage)"
+      workspaces:
+        - name: app-source
+          workspace: app-source
+
+    - name: deploy-dev
+      taskRef:
+        name: deploy
+      runAfter:
+        - build-app
+      params:
+        - name: enviroment
+          value: dev
+        - name: argoAppName
+          value: webapp-dev
+        - name: configGitUrl
+          value: "$(params.configGitUrl)"
+        - name: appImage
+          value: "$(params.appImage)"
+        - name: buildRevision
+          value: "$(params.buildRevision)"
+      workspaces:
+        - name: config-source
+          workspace: config-source

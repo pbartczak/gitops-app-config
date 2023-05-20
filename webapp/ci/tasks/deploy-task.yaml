@@ -1,0 +1,79 @@
+---
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: deploy
+  namespace: webapp-pipelines
+spec:
+  params:
+    - name: enviroment
+    - name: argoAppName
+    - name: configGitUrl
+    - name: appImage
+    - name: buildRevision
+  workspaces:
+    - name: config-source
+#      mountPath: /home/git
+  stepTemplate:
+    env:
+      - name: HOME
+        value: /tekton/home
+
+  #stepTemplate:
+  #  envFrom:
+  #    - secretRef:
+  #        name: argocd-env-secret
+  #    - configMapRef:
+  #        name: argocd-env-configmap
+
+  steps:
+    - name: git-checkout
+      image: docker.io/alpine/git:v2.26.2
+      workingDir: "$(workspaces.config-source.path)"
+      script: |
+        #!/usr/bin/env sh
+        set -eu
+
+        git init
+        git remote add origin $(params.configGitUrl)
+        git fetch --depth 1 origin main
+        git checkout main
+
+    - name: update-yaml
+      image: docker.io/alpine/git:v2.26.2
+      workingDir: "$(workspaces.config-source.path)"
+      script: |
+        #!/usr/bin/env sh
+        set -eux
+
+        cd webapp/cd/overlays/$(params.enviroment)
+        
+        echo "updating $(params.enviroment) to revision $(params.buildRevision)"
+        sed -i "s#$(params.appImage):[a-zA-Z0-9]*#$(params.appImage):$(params.buildRevision)#" kustomization.yaml
+
+    - name: commit-push-gitops
+      image: docker.io/alpine/git:v2.26.2
+      workingDir: "$(workspaces.config-source.path)"
+      script: |
+        #!/usr/bin/env sh
+        set -eu
+
+        cd webapp/cd/overlays/$(params.enviroment)
+
+        git config --global user.email "tekton@tekton.dev"
+        git config --global user.name "Tekton Pipeline"
+        git config --global --add safe.directory '*'
+
+        git add kustomization.yaml
+        git commit --allow-empty -m "[tekton] updating $(params.enviroment) image to $(params.buildRevision)"
+
+        git push origin main
+
+    #- name: wait-for-argocd-rollout
+    #  image: quay.io/argoproj/argocd:v2.2.2
+    # script: |
+    #   #!/usr/bin/env sh
+    #   set -eu
+
+    #    argocd app sync $(params.argoAppName) --insecure
+    #    argocd app wait $(params.argoAppName) --sync --health --operation --insecure

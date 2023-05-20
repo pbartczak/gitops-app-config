@@ -1,0 +1,24 @@
+---
+apiVersion: tekton.dev/v1beta1
+kind: PipelineRun
+metadata:
+  generateName: build-deploy-
+  namespace: webapp-pipelines
+spec:
+  pipelineRef:
+    name: build-deploy
+  serviceAccountName: build-bot
+  params:
+    - name: buildRevision
+      value: "27819fec479f4c4930df24748d3a60ef36351691"
+    - name: appGitUrl
+      value: "https://github.com/pbartczak/simple-flask-app.git"
+    - name: configGitUrl
+      value: "https://github.com/pbartczak/gitops-app-config.git"
+    - name: appImage
+      value: "quay.io/pbartczak/simple-flask-app"
+  workspaces:
+    - name: app-source
+      emptyDir: {}
+    - name: config-source
+      emptyDir: {}

@@ -1,0 +1,15 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+# Configs
+- config/secrets/git-token-secret.yaml
+- config/secrets/quay-token-secret.yaml
+- config/build-bot-sa.yaml
+
+# Tasks
+- tasks/build-task.yaml
+- tasks/deploy-task.yaml
+
+# Pipelines
+- pipelines/pipeline.yaml

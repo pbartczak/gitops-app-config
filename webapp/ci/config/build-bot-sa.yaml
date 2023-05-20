@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: build-bot
+  namespace: webapp-pipelines
+secrets:
+  - name: git-webapp-token
+  - name: quay-webapp-token
