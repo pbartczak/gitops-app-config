@@ -18,3 +18,10 @@ spec:
       containers:
         - image: quay.io/pbartczak/flask-app:v1.2
           name: flask-app
+          resources:
+            requests:
+              cpu: "20m"
+              memory: "20Mi"
+            limits:
+              cpu: "100m"
+              memory: "50Mi"
