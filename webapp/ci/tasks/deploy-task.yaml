@@ -11,6 +11,8 @@ spec:
     - name: configGitUrl
     - name: appImage
     - name: buildRevision
+    - name: gitBaseImage
+      default: docker.io/alpine/git:v2.26.2
   workspaces:
     - name: config-source
 #      mountPath: /home/git
@@ -28,7 +30,7 @@ spec:
 
   steps:
     - name: git-checkout
-      image: docker.io/alpine/git:v2.26.2
+      image: "$(params.gitBaseImage)"
       workingDir: "$(workspaces.config-source.path)"
       script: |
         #!/usr/bin/env sh
@@ -40,7 +42,7 @@ spec:
         git checkout main
 
     - name: update-yaml
-      image: docker.io/alpine/git:v2.26.2
+      image: "$(params.gitBaseImage)"
       workingDir: "$(workspaces.config-source.path)"
       script: |
         #!/usr/bin/env sh
@@ -52,7 +54,7 @@ spec:
         sed -i "s#$(params.appImage):[a-zA-Z0-9]*#$(params.appImage):$(params.buildRevision)#" kustomization.yaml
 
     - name: commit-push-gitops
-      image: docker.io/alpine/git:v2.26.2
+      image: "$(params.gitBaseImage)"
       workingDir: "$(workspaces.config-source.path)"
       script: |
         #!/usr/bin/env sh

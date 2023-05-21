@@ -9,6 +9,10 @@ spec:
     - name: buildRevision
     - name: appGitUrl
     - name: appImage
+    - name: gitBaseImage
+      default: docker.io/alpine/git:v2.26.2
+    - name: buildahBaseImage
+      default: registry.redhat.io/rhel8/buildah
   workspaces:
     - name: app-source
   stepTemplate:
@@ -18,7 +22,7 @@ spec:
 
   steps:
     - name: git-checkout
-      image: docker.io/alpine/git:v2.26.2
+      image: "$(params.gitBaseImage)"
       workingDir: "$(workspaces.app-source.path)"
       script: |
         #!/usr/bin/env sh
@@ -30,7 +34,7 @@ spec:
         git checkout FETCH_HEAD
 
     - name: build-image
-      image: registry.redhat.io/rhel8/buildah
+      image: "$(params.buildahBaseImage)"
       workingDir: "$(workspaces.app-source.path)"
       command:
         - buildah
@@ -51,7 +55,7 @@ spec:
           mountPath: /var/lib/containers
 
     - name: build-push
-      image: registry.redhat.io/rhel8/buildah
+      image: "$(params.buildahBaseImage)"
       command:
         - buildah
         - "--storage-driver=vfs"
