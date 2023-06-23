@@ -5,7 +5,7 @@ resources:
   # Configs
   - config/secrets/git-token-secret.yaml
   - config/secrets/quay-token-secret.yaml
-  - config/argocd-env-token-secret.yaml
+  - config/secrets/argocd-env-token-secret.yaml
   - config/build-bot-sa.yaml
   - config/argocd-env-cm.yaml
 
