@@ -21,12 +21,12 @@ spec:
       - name: HOME
         value: /tekton/home
 
-  #stepTemplate:
-  #  envFrom:
-  #    - secretRef:
-  #        name: argocd-env-secret
-  #    - configMapRef:
-  #        name: argocd-env-configmap
+  stepTemplate:
+    envFrom:
+      - secretRef:
+          name: argocd-env-secret
+      - configMapRef:
+          name: argocd-env-configmap
 
   steps:
     - name: git-checkout
@@ -71,11 +71,11 @@ spec:
 
         git push origin main
 
-    #- name: wait-for-argocd-rollout
-    #  image: quay.io/argoproj/argocd:v2.2.2
-    # script: |
-    #   #!/usr/bin/env sh
-    #   set -eu
+    - name: wait-for-argocd-rollout
+      image: quay.io/argoproj/argocd:v2.2.2
+      script: |
+        #!/usr/bin/env sh
+        set -eu
 
-    #    argocd app sync $(params.argoAppName) --insecure
-    #    argocd app wait $(params.argoAppName) --sync --health --operation --insecure
+        argocd app sync $(params.argoAppName) --insecure
+        argocd app wait $(params.argoAppName) --sync --health --operation --insecure
