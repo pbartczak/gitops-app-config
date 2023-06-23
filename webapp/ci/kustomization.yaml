@@ -2,14 +2,16 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
 resources:
-# Configs
-- config/secrets/git-token-secret.yaml
-- config/secrets/quay-token-secret.yaml
-- config/build-bot-sa.yaml
+  # Configs
+  - config/secrets/git-token-secret.yaml
+  - config/secrets/quay-token-secret.yaml
+  - config/argocd-env-token-secret.yaml
+  - config/build-bot-sa.yaml
+  - config/argocd-env-cm.yaml
 
-# Tasks
-- tasks/build-task.yaml
-- tasks/deploy-task.yaml
+  # Tasks
+  - tasks/build-task.yaml
+  - tasks/deploy-task.yaml
 
-# Pipelines
-- pipelines/pipeline.yaml
+  # Pipelines
+  - pipelines/pipeline.yaml
