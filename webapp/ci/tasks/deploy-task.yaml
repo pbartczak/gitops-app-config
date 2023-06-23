@@ -15,13 +15,11 @@ spec:
       default: docker.io/alpine/git:v2.26.2
   workspaces:
     - name: config-source
-#      mountPath: /home/git
+  #      mountPath: /home/git
   stepTemplate:
     env:
       - name: HOME
         value: /tekton/home
-
-  stepTemplate:
     envFrom:
       - secretRef:
           name: argocd-env-secret
@@ -49,7 +47,7 @@ spec:
         set -eux
 
         cd webapp/cd/overlays/$(params.enviroment)
-        
+
         echo "updating $(params.enviroment) to revision $(params.buildRevision)"
         sed -i "s#$(params.appImage):[a-zA-Z0-9]*#$(params.appImage):$(params.buildRevision)#" kustomization.yaml
 
