@@ -11,8 +11,11 @@ spec:
     - name: configGitUrl
     - name: appImage
     - name: buildRevision
+    - name: appVersion
     - name: gitBaseImage
       default: docker.io/alpine/git:v2.26.2
+    - name: argocdImage
+      default: quay.io/argoproj/argocd:v2.2.2
   workspaces:
     - name: config-source
   #      mountPath: /home/git
@@ -48,8 +51,8 @@ spec:
 
         cd webapp/cd/overlays/$(params.enviroment)
 
-        echo "updating $(params.enviroment) to revision $(params.buildRevision)"
-        sed -i "s#$(params.appImage):[a-zA-Z0-9]*#$(params.appImage):$(params.buildRevision)#" kustomization.yaml
+        echo "updating $(params.enviroment) to revision $(params.appVersion)"
+        sed -i "s#$(params.appImage):[a-zA-Z0-9.]*#$(params.appImage):$(params.appVersion)#" kustomization.yaml
 
     - name: commit-push-gitops
       image: "$(params.gitBaseImage)"
@@ -65,12 +68,12 @@ spec:
         git config --global --add safe.directory '*'
 
         git add kustomization.yaml
-        git commit --allow-empty -m "[tekton] updating $(params.enviroment) image to $(params.buildRevision)"
+        git commit --allow-empty -m "[tekton] updating $(params.enviroment) image to $(params.appVersion)"
 
         git push origin main
 
     - name: wait-for-argocd-rollout
-      image: quay.io/argoproj/argocd:v2.2.2
+      image: "$(params.argocdImage)"
       script: |
         #!/usr/bin/env sh
         set -eu

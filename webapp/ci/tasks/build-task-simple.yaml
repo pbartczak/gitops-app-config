@@ -9,7 +9,8 @@ spec:
     - name: buildRevision
     - name: appGitUrl
     - name: appImage
-    - name: gitBaseImage
+    - name: appVersion
+    - name: gitBasejImage
       default: docker.io/alpine/git:v2.26.2
     - name: buildahBaseImage
       default: registry.redhat.io/rhel8/buildah
@@ -44,7 +45,7 @@ spec:
         - "-f"
         - "Containerfile"
         - "-t"
-        - "$(params.appImage):$(params.buildRevision)"
+        - "$(params.appImage):$(params.appVersion)"
         - "."
       securityContext:
         capabilities:
@@ -61,7 +62,7 @@ spec:
         - "--storage-driver=vfs"
         - push
         - "$(params.appImage):$(params.buildRevision)"
-        - "docker://$(params.appImage):$(params.buildRevision)"
+        - "docker://$(params.appImage):$(params.appVersion)"
       securityContext:
         capabilities:
           add:

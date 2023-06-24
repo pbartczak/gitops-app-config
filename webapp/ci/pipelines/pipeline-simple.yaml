@@ -14,6 +14,8 @@ spec:
       description: The application config (GitOps) repository
     - name: appImage
       description: The application container image name
+    - name: appVersion
+      description: The application version
   workspaces:
     - name: app-source
     - name: config-source
@@ -29,6 +31,8 @@ spec:
           value: "$(params.appGitUrl)"
         - name: appImage
           value: "$(params.appImage)"
+        - name: appVersion
+          value: "$(params.appVersion)"
       workspaces:
         - name: app-source
           workspace: app-source
@@ -49,6 +53,8 @@ spec:
           value: "$(params.appImage)"
         - name: buildRevision
           value: "$(params.buildRevision)"
+        - name: appVersion
+          value: "$(params.appVersion)"
       workspaces:
         - name: config-source
           workspace: config-source

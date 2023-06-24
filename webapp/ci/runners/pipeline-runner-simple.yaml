@@ -17,6 +17,8 @@ spec:
       value: "https://github.com/pbartczak/gitops-app-config.git"
     - name: appImage
       value: "quay.io/pbartczak/simple-flask-app"
+    - name: appVersion
+      value: v0.1
   workspaces:
     - name: app-source
       emptyDir: {}
