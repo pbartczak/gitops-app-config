@@ -61,7 +61,7 @@ spec:
         - buildah
         - "--storage-driver=vfs"
         - push
-        - "$(params.appImage):$(params.buildRevision)"
+        - "$(params.appImage):$(params.appVersion)"
         - "docker://$(params.appImage):$(params.appVersion)"
       securityContext:
         capabilities:
