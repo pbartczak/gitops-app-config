@@ -10,8 +10,8 @@ resources:
   - config/argocd-env-cm.yaml
 
   # Tasks
-  - tasks/build-task.yaml
-  - tasks/deploy-task.yaml
+  - tasks/build-task-simple.yaml
+  - tasks/deploy-task-simple.yaml
 
   # Pipelines
-  - pipelines/pipeline.yaml
+  - pipelines/pipeline-simple.yaml
