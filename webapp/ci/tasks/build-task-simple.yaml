@@ -10,7 +10,7 @@ spec:
     - name: appGitUrl
     - name: appImage
     - name: appVersion
-    - name: gitBasejImage
+    - name: gitBaseImage
       default: docker.io/alpine/git:v2.26.2
     - name: buildahBaseImage
       default: registry.redhat.io/rhel8/buildah
