@@ -2,7 +2,7 @@
 apiVersion: tekton.dev/v1beta1
 kind: Pipeline
 metadata:
-  name: build-deploy
+  name: build-deploy-simple
   namespace: webapp-pipelines
 spec:
   params:
@@ -21,7 +21,7 @@ spec:
   tasks:
     - name: build-app
       taskRef:
-        name: build
+        name: build-simple
       params:
         - name: buildRevision
           value: "$(params.buildRevision)"
@@ -35,7 +35,7 @@ spec:
 
     - name: deploy-dev
       taskRef:
-        name: deploy
+        name: deploy-simple
       runAfter:
         - build-app
       params:

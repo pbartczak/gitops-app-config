@@ -2,7 +2,7 @@
 apiVersion: tekton.dev/v1beta1
 kind: Task
 metadata:
-  name: build
+  name: build-simple
   namespace: webapp-pipelines
 spec:
   params:

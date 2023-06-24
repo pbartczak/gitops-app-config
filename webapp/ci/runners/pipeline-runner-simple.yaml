@@ -6,11 +6,11 @@ metadata:
   namespace: webapp-pipelines
 spec:
   pipelineRef:
-    name: build-deploy
+    name: build-deploy-simple
   serviceAccountName: build-bot
   params:
     - name: buildRevision
-      value: "27819fec479f4c4930df24748d3a60ef36351691"
+      value: "a072bea0e9c17d84ab6cf23893c3108897ba1334"
     - name: appGitUrl
       value: "https://github.com/pbartczak/simple-flask-app.git"
     - name: configGitUrl
