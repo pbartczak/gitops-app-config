@@ -79,4 +79,4 @@ spec:
         set -eu
 
         argocd app sync $(params.argoAppName) --insecure
-        argocd app wait $(params.argoAppName) --sync --health --operation --insecure
+        argocd app wait $(params.argoAppName) --health --insecure
