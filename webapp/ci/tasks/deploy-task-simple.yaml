@@ -15,7 +15,7 @@ spec:
     - name: gitBaseImage
       default: docker.io/alpine/git:v2.26.2
     - name: argocdImage
-      default: quay.io/argoproj/argocd:v2.2.2
+      default: quay.io/argoproj/argocd:v2.6.11
   workspaces:
     - name: config-source
   #      mountPath: /home/git
