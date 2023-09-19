@@ -4,9 +4,9 @@ kind: Kustomization
 bases:
   - ../../base
 
-namespace: webapp-dev
+#namespace: webapp-dev
 
-namePrefix: dev-
+#namePrefix: dev-
 
 commonAnnotations:
   webapp/version: v1
