@@ -4,6 +4,7 @@ metadata:
   name: webapp
   labels:
     app.kubernetes.io/instance: test-label
+    app: webapp
   annotations:
     argocd.argoproj.io/sync-wave: "1"
 spec:
