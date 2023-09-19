@@ -1,0 +1,6 @@
+apiVersion: project.openshift.io/v1
+kind: ProjectRequest
+metadata:
+    name: webapp-dev
+description: "Simple webapp"
+displayName: webapp-dev
