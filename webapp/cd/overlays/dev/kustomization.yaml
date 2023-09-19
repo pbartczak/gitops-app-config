@@ -4,7 +4,7 @@ kind: Kustomization
 bases:
   - ../../base
 
-#namespace: webapp-dev
+namespace: webapp-dev
 
 #namePrefix: dev-
 
@@ -33,4 +33,4 @@ patchesStrategicMerge:
       host: dev-webapp.apps.test.eskom.demo
       to:
         kind: Service
-        name: dev-webapp-svc
+        name: webapp-svc
