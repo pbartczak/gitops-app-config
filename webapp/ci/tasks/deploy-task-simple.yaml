@@ -52,7 +52,7 @@ spec:
         cd webapp/cd/overlays/$(params.enviroment)
 
         echo "updating $(params.enviroment) to revision $(params.appVersion)"
-        sed -i "s#$(params.appImage):[a-zA-Z0-9.]*#$(params.appImage):$(params.appVersion)#" kustomization.yaml
+        sed -i "s#$(params.appImage):[a-zA-Z0-9.\-]*#$(params.appImage):$(params.appVersion)#" kustomization.yaml
 
     - name: commit-push-gitops
       image: "$(params.gitBaseImage)"
